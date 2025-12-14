@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Amelia Dual Currency (BGN/EUR)
+ * Plugin Name: Amelia Dual Currency (EUR/BGN)
  * Plugin URI: https://kordevi.com
- * Description: Automatically adds EUR prices to all Amelia booking plugin prices for Bulgarian legal compliance during EUR transition.
- * Version: 1.0.5
+ * Description: Automatically adds BGN prices to all Amelia booking plugin EUR prices for Bulgarian legal compliance during EUR transition.
+ * Version: 1.0.6
  * Author: Kordevi.com
  * License: GPL v2 or later
  * Text Domain: amelia-dual-currency
@@ -23,9 +23,9 @@ class Amelia_Dual_Currency
 {
 
     /**
-     * Fixed conversion rate BGN to EUR.
+     * Fixed conversion rate EUR to BGN.
      */
-    const BGN_TO_EUR_RATE = 1.95583;
+    const EUR_TO_BGN_RATE = 1.95583;
 
     public function __construct()
     {
@@ -89,7 +89,7 @@ class Amelia_Dual_Currency
     }
 
     /**
-     * Format price with dual currency (BGN / EUR).
+     * Format price with dual currency (EUR / BGN).
      *
      * @param string     $formatted_price Amelia's formatted price string.
      * @param float|null $price           Raw numeric price if provided by filter.
@@ -105,11 +105,11 @@ class Amelia_Dual_Currency
             return $formatted_price;
         }
 
-        $eur_price = (float) $price / self::BGN_TO_EUR_RATE;
-        $bgn_formatted = number_format((float) $price, 2, '.', '');
-        $eur_formatted = number_format($eur_price, 2, '.', '');
+        $bgn_price = (float) $price * self::EUR_TO_BGN_RATE;
+        $eur_formatted = number_format((float) $price, 2, ',', '');
+        $bgn_formatted = number_format($bgn_price, 2, ',', '');
 
-        return sprintf('%s лв. / %s €', $bgn_formatted, $eur_formatted);
+        return sprintf('%s € / %s лв.', $eur_formatted, $bgn_formatted);
     }
 
     /**
@@ -152,8 +152,8 @@ class Amelia_Dual_Currency
             'amelia-dual-currency-frontend',
             'ameliaDualCurrency',
             array(
-                'conversionRate' => self::BGN_TO_EUR_RATE,
-                'format' => '%s лв. / %s €',
+                'conversionRate' => self::EUR_TO_BGN_RATE,
+                'format' => '%s € / %s лв.',
                 'debug' => true, // temporary to see logs
             )
         );
@@ -179,8 +179,8 @@ class Amelia_Dual_Currency
                 'amelia-dual-currency-admin',
                 'ameliaDualCurrency',
                 array(
-                    'conversionRate' => self::BGN_TO_EUR_RATE,
-                    'format' => '%s лв. / %s €',
+                    'conversionRate' => self::EUR_TO_BGN_RATE,
+                    'format' => '%s € / %s лв.',
                 )
             );
         }
