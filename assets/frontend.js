@@ -68,7 +68,7 @@
     }
 
     function alreadyConverted(text) {
-        return text.includes('лв.'); // if it already has both currencies, skip
+        return text.includes('лв.'); // if it already has BGN currency, skip (indicates already converted)
     }
 
     function convertPriceElement(el) {
@@ -149,7 +149,7 @@
         const eurRounded = Math.round(Number(eurPrice) * 100) / 100;
         const bgnRounded = Math.round((Number(eurPrice) * rate) * 100) / 100;
 
-        const eurFormatted = formatEU(eurRounded); // e.g. "13,00" or "13"
+        const eurFormatted = formatEU(eurRounded); // e.g. "13,00"
         const bgnFormatted = formatEU(bgnRounded); // e.g. "25,43"
 
         return `${eurFormatted} € / ${bgnFormatted} лв.`;
