@@ -159,15 +159,14 @@
      * Format with EU rules:
      * - Decimal comma
      * - Space as thousands separator (locale driven)
-     * - No decimals when value is an integer after rounding
+     * - Always show 2 decimals for consistency
      */
     function formatEU(value) {
         const rounded = Math.round(Number(value) * 100) / 100;
-        const isInteger = Math.abs(rounded - Math.trunc(rounded)) < 1e-9;
 
         return new Intl.NumberFormat('bg-BG', {
-            minimumFractionDigits: isInteger ? 0 : 2,
-            maximumFractionDigits: isInteger ? 0 : 2,
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
             useGrouping: true
         }).format(rounded);
     }

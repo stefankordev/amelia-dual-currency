@@ -12,10 +12,10 @@ Automatically displays dual currency prices (BGN / EUR) for the Amelia Booking p
 
 == Description ==
 
-Amelia Dual Currency adds a second price (EUR) next to all BGN prices in Amelia Booking (services, packages, events) to help Bulgarian businesses comply with dual display requirements during the EUR transition.
+Amelia Dual Currency adds a second price (BGN) next to all EUR prices in Amelia Booking (services, packages, events) to help Bulgarian businesses comply with dual display requirements during the EUR transition.
 
-- Fixed conversion rate: 1.95583 (BGN to EUR).
-- Format example: 9.93 лв. / 4.44 €
+- Fixed conversion rate: 1.95583 (EUR to BGN).
+- Format example: 13,00 € / 25,43 лв.
 - Works in both frontend and WordPress admin.
 - Handles dynamically loaded content from Amelia.
 
@@ -37,9 +37,9 @@ No settings page. Just activate and it works on pages where Amelia is embedded.
 No. It only changes how prices are displayed, not the stored values.
 
 = What conversion rate is used? =
-A fixed rate of 1.95583 BGN to EUR.
+A fixed rate of 1.95583 EUR to BGN.
 
-= Can I disable EUR on certain pages? =
+= Can I disable BGN on certain pages? =
 By default, it runs where Amelia shortcodes are detected. If you need finer control, we can add a filter or option upon request.
 
 = Will it conflict with other currency plugins? =
@@ -61,6 +61,12 @@ If you do not see dual prices on the frontend:
 2. Dual currency hint next to price inputs in admin.
 
 == Changelog ==
+
+= 1.0.6 =
+- Breaking change: Reversed currency display format - now takes EUR as base price and shows BGN as secondary.
+- New format: 13,00 € / 25,43 лв. (previously was 9.93 лв. / 4.44 €)
+- Updated conversion logic: EUR to BGN (multiply by 1.95583) instead of BGN to EUR (divide by 1.95583).
+- Updated all display formats in PHP, frontend.js, and admin.js to match new format.
 
 = 1.0.5 =
 - Confirmation screen: dual pricing now applied to the payment line while preserving the trailing payment method text (e.g., “- На място”).
