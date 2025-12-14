@@ -51,8 +51,10 @@
             const $display = $input.next('.dual-currency-display');
             
             if (price > 0) {
-                const eurPrice = price / ameliaDualCurrency.conversionRate;
-                $display.text('(' + price.toFixed(2) + ' лв. / ' + eurPrice.toFixed(2) + ' €)');
+                const bgnPrice = price * ameliaDualCurrency.conversionRate;
+                const eurFormatted = price.toFixed(2).replace('.', ',');
+                const bgnFormatted = bgnPrice.toFixed(2).replace('.', ',');
+                $display.text('(' + eurFormatted + ' € / ' + bgnFormatted + ' лв.)');
             } else {
                 $display.text('');
             }
@@ -91,12 +93,12 @@
         return isNaN(price) ? 0 : price;
     }
     
-    function formatDualCurrency(bgnPrice) {
-        const eurPrice = bgnPrice / ameliaDualCurrency.conversionRate;
-        const bgnFormatted = bgnPrice.toFixed(2);
-        const eurFormatted = eurPrice.toFixed(2);
+    function formatDualCurrency(eurPrice) {
+        const bgnPrice = eurPrice * ameliaDualCurrency.conversionRate;
+        const eurFormatted = eurPrice.toFixed(2).replace('.', ',');
+        const bgnFormatted = bgnPrice.toFixed(2).replace('.', ',');
         
-        return bgnFormatted + ' лв. / ' + eurFormatted + ' €';
+        return eurFormatted + ' € / ' + bgnFormatted + ' лв.';
     }
     
 })(jQuery);

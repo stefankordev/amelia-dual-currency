@@ -68,7 +68,7 @@
     }
 
     function alreadyConverted(text) {
-        return text.includes('€'); // if it already has euro, skip
+        return text.includes('лв.'); // if it already has BGN currency, skip (indicates already converted)
     }
 
     function convertPriceElement(el) {
@@ -142,32 +142,31 @@
         return Number.isFinite(n) ? n : 0;
     }
 
-    function formatDualCurrency(bgnPrice) {
+    function formatDualCurrency(eurPrice) {
         const rate = window.ameliaDualCurrency ? Number(ameliaDualCurrency.conversionRate) : 1.95583;
 
         // Calculate, then round to 2 decimals max for both currencies
-        const bgnRounded = Math.round(Number(bgnPrice) * 100) / 100;
-        const eurRounded = Math.round((Number(bgnPrice) / rate) * 100) / 100;
+        const eurRounded = Math.round(Number(eurPrice) * 100) / 100;
+        const bgnRounded = Math.round((Number(eurPrice) * rate) * 100) / 100;
 
-        const bgnFormatted = formatEU(bgnRounded); // e.g. "25" or "25,50"
-        const eurFormatted = formatEU(eurRounded); // e.g. "12,79"
+        const eurFormatted = formatEU(eurRounded); // e.g. "13,00"
+        const bgnFormatted = formatEU(bgnRounded); // e.g. "25,43"
 
-        return `${bgnFormatted} лв. / ${eurFormatted} €`;
+        return `${eurFormatted} € / ${bgnFormatted} лв.`;
     }
 
     /**
      * Format with EU rules:
      * - Decimal comma
      * - Space as thousands separator (locale driven)
-     * - No decimals when value is an integer after rounding
+     * - Always show 2 decimals for consistency
      */
     function formatEU(value) {
         const rounded = Math.round(Number(value) * 100) / 100;
-        const isInteger = Math.abs(rounded - Math.trunc(rounded)) < 1e-9;
 
         return new Intl.NumberFormat('bg-BG', {
-            minimumFractionDigits: isInteger ? 0 : 2,
-            maximumFractionDigits: isInteger ? 0 : 2,
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
             useGrouping: true
         }).format(rounded);
     }
